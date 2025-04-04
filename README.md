@@ -4,5 +4,5 @@ we propose the first manual-based appliance manipulation benchmark **CheckManual
 
 ## 🔥 News
 - 2025.4.4: Our paper is announced as CVPR 2025 Highlight.
-- 2025.3.28: Our paper has been by Arxiv due to unknown problems. We will release Codes and data immediately after Arxiv acceptance.
+- 2025.3.28: Our paper has been by Arxiv due to unknown problems. We will release codes and data immediately after Arxiv acceptance.
 - 2025.2.26: Our paper is accepted by CVPR 2025. 
