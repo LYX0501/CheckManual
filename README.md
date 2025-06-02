@@ -32,7 +32,7 @@ Please download the PartNet-Mobility dataset from https://sapien.ucsd.edu/downlo
 ```
 
 ### Install SAPIEN Simulator
-First, install SAPIEN following
+First, install SAPIEN (Python 3.6) following
 ```
 pip install http://download.cs.stanford.edu/orion/where2act/where2act_sapien_wheels/sapien-0.8.0.dev0-cp36-cp36m-manylinux2014_x86_64.whl
 ```
