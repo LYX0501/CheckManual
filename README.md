@@ -11,7 +11,7 @@ we propose the first manual-based appliance manipulation benchmark **CheckManual
 
 ### Data Preparation
 Please download the PartNet-Mobility dataset from https://sapien.ucsd.edu/downloads and the CheckManual dataset from ...... Then, you should rearrange them in the **data** file as the following format.
-```
+
 ```
 |data
 | -- sapien_dataset
