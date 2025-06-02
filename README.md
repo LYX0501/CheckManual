@@ -7,23 +7,24 @@ we propose the first manual-based appliance manipulation benchmark **CheckManual
 - 2025.3.28: Our paper has been pended by Arxiv due to unknown problems. We will release codes and data immediately after Arxiv acceptance.
 - 2025.2.26: Our paper is accepted by CVPR 2025. 
 
-## Environment
+## 🌏 Environment
 
-### Download PartNet-Mobility Assets and Our CheckManual Dataset
-Please download the PartNet-Mobility dataset from https://sapien.ucsd.edu/downloads and the CheckManual dataset from ....
-
+### Data Preparation
+Please download the PartNet-Mobility dataset from https://sapien.ucsd.edu/downloads and the CheckManual dataset from ...... Then, you should rearrange them in the **data** file as the following format.
+```
+```
 |data
-|----sapien_dataset
-|--------148
-|--------149
-|--------152
-|--------......
-|....checkmanual_dataset
-|--------manual_1
-|--------manual_2
-|--------manual_3
-|--------......
-
+| -- sapien_dataset
+|    | -- 148
+|    | -- 149
+|    | -- 152
+|    `-- ...
+| -- checkmanual_dataset
+|    | -- manual_1
+|    | -- manual_2
+|    | -- manual_3
+|    `-- ...
+```
 
 ### Install SAPIEN Simulator
 First, install SAPIEN following
