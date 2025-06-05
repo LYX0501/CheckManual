@@ -44,4 +44,14 @@ pip install http://download.cs.stanford.edu/orion/where2act/where2act_sapien_whe
 ```
 Please do not use the default `pip install sapien` as SAPIEN is being actively updated.
 
-
+## ✒ Citation
+Please cite our paper if you find it helpful :)
+```
+@article{checkmanual,
+    author    = {Long, Yuxing and Zhang, Jiyao and Pan, Mingjie and Wu, Tianshu and Kim, Taewhan and Dong, Hao},
+    title     = {CheckManual: A New Challenge and Benchmark for Manual-based Appliance Manipulation},
+    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+    month     = {June},
+    year      = {2025},
+}
+```
