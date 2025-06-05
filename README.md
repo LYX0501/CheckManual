@@ -9,6 +9,7 @@ we propose the first manual-based appliance manipulation benchmark **CheckManual
 
 
 ## 🔥 News
+- 2025.06.05: We have released the [**CheckManual**]() dataset.
 - 2025.04.04: Our paper is announced as CVPR 2025 Highlight.
 - 2025.02.26: Our paper [**CheckManual: A New Challenge and Benchmark for Manual-based Appliance Manipulation**](https://github.com/LYX0501/CheckManual/blob/main/paper/CVPR2025_CheckManual.pdf) is accepted by CVPR 2025. 
 
