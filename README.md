@@ -16,7 +16,9 @@ we propose the first manual-based appliance manipulation benchmark **CheckManual
 ## 🌏 Environment
 
 ### Data Preparation
-Please download the PartNet-Mobility dataset from https://sapien.ucsd.edu/downloads and the CheckManual dataset from https://drive.google.com/file/d/1YasM5Se7h4H8wCqZFN3mK8sCu1cEZBo7/view?usp=drive_link Then, you should rearrange them in the **data** file as the following format.
+Please download the 【**PartNet-Mobility**](https://sapien.ucsd.edu/downloads) dataset and the [**CheckManual**](https://drive.google.com/file/d/1YasM5Se7h4H8wCqZFN3mK8sCu1cEZBo7/view?usp=drive_link).
+
+Then, you should rearrange them in the **data** file as the following format.
 
 ```
 |data
