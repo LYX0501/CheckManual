@@ -9,14 +9,14 @@ we propose the first manual-based appliance manipulation benchmark **CheckManual
 
 
 ## 🔥 News
-- 2025.06.05: We have released the [**CheckManual**]() dataset.
+- 2025.06.05: We have released the [**CheckManual**](https://drive.google.com/file/d/1YasM5Se7h4H8wCqZFN3mK8sCu1cEZBo7/view?usp=drive_link) dataset.
 - 2025.04.04: Our paper is announced as CVPR 2025 Highlight.
 - 2025.02.26: Our paper [**CheckManual: A New Challenge and Benchmark for Manual-based Appliance Manipulation**](https://github.com/LYX0501/CheckManual/blob/main/paper/CVPR2025_CheckManual.pdf) is accepted by CVPR 2025. 
 
 ## 🌏 Environment
 
 ### Data Preparation
-Please download the PartNet-Mobility dataset from https://sapien.ucsd.edu/downloads and the CheckManual dataset from ...... Then, you should rearrange them in the **data** file as the following format.
+Please download the PartNet-Mobility dataset from https://sapien.ucsd.edu/downloads and the CheckManual dataset from https://drive.google.com/file/d/1YasM5Se7h4H8wCqZFN3mK8sCu1cEZBo7/view?usp=drive_link Then, you should rearrange them in the **data** file as the following format.
 
 ```
 |data
