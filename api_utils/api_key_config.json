@@ -1,0 +1,10 @@
+{
+    "GPT": {
+        "key": "",
+        "url": ""
+    },
+    "OCR": {
+        "API_KEY": "",
+        "SECRET_KEY": ""
+    }
+}
