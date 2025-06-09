@@ -11,7 +11,7 @@ we propose the first manual-based appliance manipulation benchmark **CheckManual
 ## 🔥 News
 - 2025.06.09: We have released the ManualPlan framework and evaluation script for Track 1 challenge.
 - 2025.06.05: We have released the [**CheckManual**](https://drive.google.com/file/d/1YasM5Se7h4H8wCqZFN3mK8sCu1cEZBo7/view?usp=drive_link) dataset.
-- 2025.04.04: Our paper is announced as CVPR 2025 Highlight.
+- 2025.04.04: Our paper is announced as CVPR 2025 **Highlight**.
 - 2025.02.26: Our paper [**CheckManual: A New Challenge and Benchmark for Manual-based Appliance Manipulation**](https://openaccess.thecvf.com/content/CVPR2025/papers/Long_CheckManual_A_New_Challenge_and_Benchmark_for_Manual-based_Appliance_Manipulation_CVPR_2025_paper.pdf) is accepted by CVPR 2025. 
 
 ## 🌏 Environment
@@ -36,6 +36,8 @@ Then, you should rearrange them in the **data** file as the following format.
 ```
 
 ### Installation
+We have tested the following installation steps on the workstation with Ubuntu20.04 and CUDA 11.3.
+
 First, create Conda environment
 ```
 conda create -n checkmanual python=3.7
@@ -67,7 +69,7 @@ Before calling GPT and OCR, you need to configure their keys in `api_utils/api_k
 
 In our work, we use GPT API provided by [**ChatAnyWhere**](https://api.chatanywhere.org/#/) and OCR API provided by [**Baidu**](https://ai.baidu.com/tech/ocr).
 
-### Run Evaluation about ManualPlan on Track 1 Challenge
+### Track 1: Run Evaluation about ManualPlan
 You run the evaluation about ManualPlan on Track 1 challenge by:
 ```
 xvfb-run -a python track1_ManualPlan.py
