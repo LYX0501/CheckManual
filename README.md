@@ -10,7 +10,7 @@ we propose the first manual-based appliance manipulation benchmark **CheckManual
 
 ## 🔥 News
 - 2025.06.09: We have released the ManualPlan framework and evaluation script for Track 1 challenge.
-- 2025.06.05: We have released the [**CheckManual**](https://drive.google.com/file/d/1YasM5Se7h4H8wCqZFN3mK8sCu1cEZBo7/view?usp=drive_link) dataset.
+- 2025.06.05: [**CheckManual**](https://drive.google.com/file/d/1YasM5Se7h4H8wCqZFN3mK8sCu1cEZBo7/view?usp=drive_link) dataset has been released.
 - 2025.04.04: Our paper is announced as CVPR 2025 **Highlight**.
 - 2025.02.26: Our paper [**CheckManual: A New Challenge and Benchmark for Manual-based Appliance Manipulation**](https://openaccess.thecvf.com/content/CVPR2025/papers/Long_CheckManual_A_New_Challenge_and_Benchmark_for_Manual-based_Appliance_Manipulation_CVPR_2025_paper.pdf) is accepted by CVPR 2025. 
 
