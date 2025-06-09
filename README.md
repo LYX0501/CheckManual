@@ -36,7 +36,7 @@ Then, you should rearrange them in the **data** file as the following format.
 ```
 
 ### Installation
-We have tested the following installation steps on the [**AutoDL**](https://www.autodl.com/market/list) GPU workstation with Ubuntu 20.04 and CUDA 11.3.
+We have tested the following installation steps on the [**AutoDL**](https://www.autodl.com/market/list) RTX 3090 workstation with Ubuntu 20.04 and CUDA 11.3.
 
 First, create Conda environment
 ```
