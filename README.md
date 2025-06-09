@@ -45,7 +45,11 @@ conda activate checkmanual
 pip install torch==1.13.1+cu116 torchvision==0.14.1+cu116 torchaudio==0.13.1 --extra-index-url
 sudo apt update
 sudo apt install xvfb poppler-utils
-
+```
+Git clone CheckManual repository
+```
+git clone https://github.com/LYX0501/CheckManual.git
+cd CheckManual
 ```
 Then, install SAPIEN (Python 3.7) following
 ```
