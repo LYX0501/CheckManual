@@ -63,16 +63,16 @@ pip install -r requirements.txt
 ```
 
 ### Configure GPT and OCR API
-Before calling GPT and OCR, you need to configure their keys in api_utils/api_key_config.json file.
+Before calling GPT and OCR, you need to configure their keys in `api_utils/api_key_config.json` file.
 
 In our work, we use GPT API provided by [**ChatAnyWhere**](https://api.chatanywhere.org/#/) and OCR API provided by [**Baidu**](https://ai.baidu.com/tech/ocr).
 
 ### Run Evaluation about ManualPlan on Track 1 Challenge
-You run the evaluation about ManualPlan on Track 1 challeneg by:
+You run the evaluation about ManualPlan on Track 1 challenge by:
 ```
 xvfb-run -a python track1_ManualPlan.py
 ```
-This python script will create track1_result.json file to record the evaluation results.
+This python script will create `track1_result.json` file to record the evaluation results.
 
 ## ✒ Citation
 Please cite our paper if you find it helpful :)
