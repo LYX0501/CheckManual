@@ -34,13 +34,15 @@ CMAKE_PREFIX_PATH=$CONDA_PREFIX/lib/python3.9/site-packages/pybind11/share/cmake
 
 # Install pyrender(For visualizing predicted pose)
 sudo apt install -y libegl1 libglu1-mesa libgl1-mesa-glx
+
+# Install Flask
+pip install flask
 ```
 
 ## Download FoundationPose weights
 Download all network weights from [here](https://drive.google.com/drive/folders/1DFezOAD0oD1BblsXVxqDsl8fj0qzB82i?usp=sharing) and put them under the folder `weights/`. For the refiner, you will need `2023-10-28-18-33-37`. For scorer, you will need `2024-01-11-20-02-45`.
 
-## Run the FoundationPose
+## Run the FoundationPose Flask Server
 ```
-pip install flask
 python foundationpose_flask.py
 ```
