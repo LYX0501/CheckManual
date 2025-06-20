@@ -16,7 +16,7 @@ mkdir build && cd build
 cmake ..
 sudo make install
 sudo apt install libboost-all-dev
-cd ..
+cd /path/to/FoundationPose
 
 # Install dependencies
 python -m pip install -r requirements.txt
