@@ -1,4 +1,4 @@
-## Foundationpose Env Setup
+## FoundationPose Env Setup
 
 ```bash
 git clone https://github.com/NVlabs/FoundationPose.git
@@ -20,7 +20,7 @@ sudo make install
 sudo apt install libboost-all-dev
 cd ..
 
-# install dependencies
+# Install dependencies
 python -m pip install -r requirements.txt
 
 # Install NVDiffRast
@@ -36,6 +36,10 @@ CMAKE_PREFIX_PATH=$CONDA_PREFIX/lib/python3.9/site-packages/pybind11/share/cmake
 sudo apt install -y libegl1 libglu1-mesa libgl1-mesa-glx
 ```
 
-## Foundationpose weights
+## Download FoundationPose weights
 
-Download all network weights from here and put them under the folder weights/. For the refiner, you will need 2023-10-28-18-33-37. For scorer, you will need 2024-01-11-20-02-45
+Download all network weights from [here](https://drive.google.com/drive/folders/1DFezOAD0oD1BblsXVxqDsl8fj0qzB82i?usp=sharing) and put them under the folder `weights/`. For the refiner, you will need `2023-10-28-18-33-37`. For scorer, you will need `2024-01-11-20-02-45`.
+
+## Run the FoundationPose
+pip install flask
+python foundationpose_flask.py 
