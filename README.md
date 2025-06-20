@@ -80,6 +80,9 @@ xvfb-run -a python track1_ManualPlan.py
 ```
 This python script will create `track1_result.json` file to record the evaluation results.
 
+### Track 2
+Please install FoundationPose following the [FoundationPose Installation](FoundationPose/README.md).
+
 ## ✒ Citation
 Please cite our paper if you find it helpful :)
 ```
