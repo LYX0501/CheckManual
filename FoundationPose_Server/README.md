@@ -1,6 +1,6 @@
 ## FoundationPose Env Setup
-
-```bash
+```
+bash
 git clone https://github.com/NVlabs/FoundationPose.git
 cd FouondationPose
 
@@ -37,9 +37,10 @@ sudo apt install -y libegl1 libglu1-mesa libgl1-mesa-glx
 ```
 
 ## Download FoundationPose weights
-
 Download all network weights from [here](https://drive.google.com/drive/folders/1DFezOAD0oD1BblsXVxqDsl8fj0qzB82i?usp=sharing) and put them under the folder `weights/`. For the refiner, you will need `2023-10-28-18-33-37`. For scorer, you will need `2024-01-11-20-02-45`.
 
 ## Run the FoundationPose
+```
 pip install flask
-python foundationpose_flask.py 
+python foundationpose_flask.py
+```
