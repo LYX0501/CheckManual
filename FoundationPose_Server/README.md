@@ -1,12 +1,10 @@
 ## FoundationPose Env Setup
 ```
-bash
 git clone https://github.com/NVlabs/FoundationPose.git
 cd FouondationPose
 
-# create conda environment
+# Setup conda environment
 conda create -n foundationpose python=3.9
-# activate conda environment
 conda activate foundationpose
 
 # Install Eigen3 3.4.0 under conda environment
