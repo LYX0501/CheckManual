@@ -83,7 +83,7 @@ This python script will create `track1_result.json` file to record the evaluatio
 ### Track 2
 Please install FoundationPose following the [**FoundationPose Installation**](FoundationPose_Server/README.md).
 
-Then， start a Tmux session to execute 
+Then, start a Tmux session to execute 
 ```
 python FoundationPose_Server/foundationpose_flask.py
 ```
