@@ -42,7 +42,7 @@ First, create Conda environment
 ```
 conda create -n checkmanual python=3.7
 conda activate checkmanual
-pip install torch==1.13.1+cu116 torchvision==0.14.1+cu116 torchaudio==0.13.1 --extra-index-url
+pip install torch==1.13.1+cu117 torchvision==0.14.1+cu117 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu117
 sudo apt update
 sudo apt install xvfb poppler-utils
 ```
