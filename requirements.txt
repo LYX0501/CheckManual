@@ -1,8 +1,15 @@
 h5py
+imageio
 matplotlib
+numpy
+open3d
 opencv-python
+Pillow
 pdf2image
+pybullet
 pyquaternion
 requests
+scipy
+tqdm
 transforms3d
 trimesh

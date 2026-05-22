@@ -1,0 +1,40 @@
+import numpy as np
+from env_utils import execute, reset_to_default_pose
+from perception_utils import parse_query_obj
+from plan_utils import get_affordance_map, get_avoidance_map, get_velocity_map, get_rotation_map, get_gripper_map
+
+# Query: go back to default.
+reset_to_default_pose()
+
+# Query: open gripper.
+movable = parse_query_obj('gripper')
+gripper_map = get_gripper_map('open everywhere')
+execute(movable, gripper_map=gripper_map)
+
+# Query: close gripper.
+movable = parse_query_obj('gripper')
+gripper_map = get_gripper_map('close everywhere')
+execute(movable, gripper_map=gripper_map)
+
+# Query: move to a point at the center of the button with closed gripper.
+movable = parse_query_obj('gripper')
+affordance_map = get_affordance_map('a point at the center of the button')
+gripper_map = get_gripper_map('close everywhere')
+execute(movable, affordance_map=affordance_map, gripper_map=gripper_map)
+
+# Query: move to a point 50cm away from the button while facing the button surface.
+movable = parse_query_obj('gripper')
+affordance_map = get_affordance_map('a point 50cm away from the button')
+rotation_map = get_rotation_map('face the button surface')
+execute(movable, affordance_map=affordance_map, rotation_map=rotation_map)
+
+# Query: move to a point 5cm into the button with closed gripper.
+movable = parse_query_obj('gripper')
+affordance_map = get_affordance_map('a point 5 cm into the button')
+gripper_map = get_gripper_map('close everywhere')
+execute(movable, affordance_map=affordance_map, gripper_map=gripper_map)
+
+# Query: rotate clockwise by 90 degrees.
+movable = parse_query_obj('gripper')
+rotation_map = get_rotation_map('rotate clockwise by 90 degrees')
+execute(movable, rotation_map=rotation_map)

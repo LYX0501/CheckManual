@@ -1,0 +1,28 @@
+import numpy as np
+from perception_utils import parse_query_obj
+from plan_utils import get_empty_affordance_map, set_voxel_by_radius, cm2index
+
+# Query: a point at the center of the button.
+affordance_map = get_empty_affordance_map()
+button = parse_query_obj('button')
+x, y, z = button.position
+affordance_map[x, y, z] = 1
+ret_val = affordance_map
+
+# Query: a point 50cm away from the button.
+affordance_map = get_empty_affordance_map()
+button = parse_query_obj('button')
+# positive normal because we are moving away from the button.
+direction = button.normal
+affordance_xyz = button.position + cm2index(50, direction)
+affordance_map[affordance_xyz[0], affordance_xyz[1], affordance_xyz[2]] = 1
+ret_val = affordance_map
+
+# Query: a point 5cm into the button.
+affordance_map = get_empty_affordance_map()
+top_handle = parse_query_obj('button')
+# negative normal because we are moving into the button.
+moving_dir = -button.normal
+affordance_xyz = button.position + cm2index(5, moving_dir)
+affordance_map[affordance_xyz[0], affordance_xyz[1], affordance_xyz[2]] = 1
+ret_val = affordance_map

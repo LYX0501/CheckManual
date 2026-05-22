@@ -4,7 +4,7 @@
 
 from __future__ import division
 import sapien.core as sapien
-from sapien.core import Pose, SceneConfig, OptifuserConfig
+from sapien.core import Pose, SceneConfig
 from transforms3d.quaternions import axangle2quat, qmult
 import numpy as np
 from utils import process_angle_limit, get_random_number
@@ -16,12 +16,12 @@ class ContactError(Exception):
 
 
 class Env(object):
-    
-    def __init__(self, show_gui=False, render_rate=20, timestep=1/500, \
+
+    def __init__(self, flog=None, show_gui=False, render_rate=20, timestep=1/500, \
             object_position_offset=0.0, succ_ratio=0.1):
         self.current_step = 0
 
-        # self.flog = flog
+        self.flog = flog
         self.show_gui = show_gui
         self.render_rate = render_rate
         self.timestep = timestep
@@ -31,23 +31,17 @@ class Env(object):
         # engine and renderer
         self.engine = sapien.Engine(0, 0.001, 0.005)
         
-        render_config = OptifuserConfig()
-        render_config.shadow_map_size = 8192
-        render_config.shadow_frustum_size = 10
-        render_config.use_shadow = False
-        render_config.use_ao = True
-        
-        self.renderer = sapien.OptifuserRenderer(config=render_config)
-        self.renderer.enable_global_axes(False)
-        
+        self.renderer = sapien.VulkanRenderer(offscreen_only=(not show_gui))
         self.engine.set_renderer(self.renderer)
 
         # GUI
         self.window = False
         if show_gui:
-            self.renderer_controller = sapien.OptifuserController(self.renderer)
-            self.renderer_controller.set_camera_position(-3.0+object_position_offset, 1.0, 3.0)
-            self.renderer_controller.set_camera_rotation(-0.4, -0.8)
+            self.renderer_controller = sapien.VulkanController(self.renderer)
+            self.renderer_controller.set_free_camera_position(
+                -3.0 + object_position_offset, 1.0, 3.0
+            )
+            self.renderer_controller.set_free_camera_rotation(-0.4, -0.8, 0)
 
         # scene
         scene_config = SceneConfig()
@@ -85,8 +79,8 @@ class Env(object):
         self.contact_error = False
 
     def set_controller_camera_pose(self, x, y, z, yaw, pitch):
-        self.renderer_controller.set_camera_position(x, y, z)
-        self.renderer_controller.set_camera_rotation(yaw, pitch)
+        self.renderer_controller.set_free_camera_position(x, y, z)
+        self.renderer_controller.set_free_camera_rotation(yaw, pitch, 0)
         self.renderer_controller.render()
 
     def get_global_mesh(self, obj):
@@ -444,9 +438,6 @@ class Env(object):
         return self.engine.create_physical_material(static_friction, dynamic_friction, restitution)
 
     def render(self):
-        if self.show_gui and (not self.window):
-            self.window = True
-            self.renderer_controller.show_window()
         self.scene.update_render()
         if self.show_gui and (self.current_step % self.render_rate == 0):
             self.renderer_controller.render()
@@ -549,13 +540,11 @@ class Env(object):
         return True
 
     def close_render(self):
-        if self.window:
-            self.renderer_controller.hide_window()
         self.window = False
     
     def wait_to_start(self):
         print('press q to start\n')
-        while not self.renderer_controller.should_quit:
+        while not self.renderer_controller.is_closed:
             self.scene.update_render()
             if self.show_gui:
                 self.renderer_controller.render()
@@ -563,6 +552,5 @@ class Env(object):
     def close(self):
         if self.show_gui:
             self.renderer_controller.set_current_scene(None)
+            self.renderer_controller.close()
         self.scene = None
-
-

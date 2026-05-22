@@ -1,12 +1,16 @@
 import os
 import sys
 import h5py
-import torch
 import numpy as np
 import importlib
 import random
 import shutil
 from PIL import Image
+
+try:
+    import torch
+except ImportError:
+    torch = None
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(BASE_DIR, '../utils'))
 # from colors import colors
@@ -58,6 +62,8 @@ def printout(flog, strout):
         flog.write(strout + '\n')
 
 def optimizer_to_device(optimizer, device):
+    if torch is None:
+        raise ImportError("torch is required for optimizer_to_device")
     for state in optimizer.state.values():
         for k, v in state.items():
             if torch.is_tensor(v):
@@ -84,6 +90,8 @@ def worker_init_fn(worker_id):
         References:
             https://pytorch.org/docs/stable/notes/faq.html#dataloader-workers-random-seed
     """
+    if torch is None:
+        raise ImportError("torch is required for worker_init_fn")
     base_seed = torch.IntTensor(1).random_().item()
     #print(worker_id, base_seed)
     np.random.seed(base_seed + worker_id)
@@ -214,6 +222,8 @@ def export_pts_color_pts(out, v, c):
             fout.write('%f %f %f %f %f %f\n' % (v[i, 0], v[i, 1], v[i, 2], c[i, 0], c[i, 1], c[i, 2]))
 
 def load_checkpoint(models, model_names, dirname, epoch=None, optimizers=None, optimizer_names=None, strict=True):
+    if torch is None:
+        raise ImportError("torch is required for load_checkpoint")
     if len(models) != len(model_names) or (optimizers is not None and len(optimizers) != len(optimizer_names)):
         raise ValueError('Number of models, model names, or optimizers does not match.')
 
@@ -312,7 +322,7 @@ def pose2exp_coordinate(pose):
 
     omega, theta = rot2so3(pose[:3, :3])
     ss = skew(omega)
-    inv_left_jacobian = np.eye(3, dtype=np.float) / theta - 0.5 * ss + (
+    inv_left_jacobian = np.eye(3, dtype=float) / theta - 0.5 * ss + (
             1.0 / theta - 0.5 / np.tan(theta / 2)) * ss @ ss
     v = inv_left_jacobian @ pose[:3, 3]
     return np.concatenate([omega, v]), theta

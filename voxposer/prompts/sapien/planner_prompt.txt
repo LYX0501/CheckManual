@@ -1,0 +1,35 @@
+import numpy as np
+from env_utils import execute
+from perception_utils import parse_query_obj
+import action_utils import composer
+
+objects = ['button']
+# Query: Press the button.
+composer("back to default pose")
+composer("move to a point 50cm away from the button while facing the button surface.")
+composer("move to a point at the center of the button with closed gripper")
+# done
+
+objects = ['knob]
+# Query: Rotate the knob 90 degrees.
+composer("back to default pose")
+composer("move to a point 50cm away from the knob with opend gripper while facing the knob surface.")
+composer("a point at the center of the knob with closed gripper")
+composer("rotate clockwise by 90 degrees with opened gripper")
+# done
+
+objects = ['door]
+# Query: Open the door.
+composer("back to default pose")
+composer("move to a point 50cm away from the door handle with opend gripper while facing the door handle.")
+composer("a point at the center of the door handle with closed gripper")
+composer("move to a point 50cm away from the door handle")
+# done
+
+objects = ['door]
+# Query: Close the door.
+composer("back to default pose")
+composer("move to a point 50cm away from the door handle with closed gripper while facing the door handle.")
+composer("a point at the center of the door handle with closed gripper")
+composer("move to a point 50cm into the door handle with opend gripper")
+# done

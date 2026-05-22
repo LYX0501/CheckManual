@@ -1,0 +1,21 @@
+import numpy as np
+from plan_utils import get_empty_rotation_map, set_voxel_by_radius, cm2index, vec2quat
+from perception_utils import parse_query_obj
+from transforms3d.euler import euler2quat, quat2euler
+from transforms3d.quaternions import qmult, qinverse
+
+# Query: rotate clockwise by 90 degrees
+rotation_map = get_empty_rotation_map()
+curr_rotation = rotation_map[0, 0, 0]
+print("curr_rotation", curr_rotation)
+rotation_delta = euler2quat(0, 0, np.pi/2)
+rotation_map[:, :, :] = qmult(curr_rotation, rotation_delta)
+print("rotation_map[0, 0, 0]", rotation_map[0, 0, 0])
+ret_val = rotation_map
+
+# Query: face the button surface
+rotation_map = get_empty_rotation_map()
+button = parse_query_obj('button')
+target_rotation = vec2quat(-button.normal)
+rotation_map[:, :, :] = target_rotation
+ret_val = rotation_map

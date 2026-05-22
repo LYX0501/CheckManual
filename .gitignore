@@ -1,0 +1,41 @@
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local environments and editor files
+.env
+.venv/
+venv/
+.idea/
+.vscode/
+
+# Runtime outputs
+results/
+*.log
+*.tmp
+*.pkl
+messages.pkl
+
+# Large datasets and released archives
+checkmanual_dataset_official
+data/CheckManual_Data/
+data/sapien_dataset/
+data/*.zip
+!data/README.md
+!data/.gitignore
+
+# Model checkpoints and downloaded weights
+checkpoints/
+*.pth
+*.pt
+*.ckpt
+*.safetensors
+*.onnx
+
+# OS files
+.DS_Store
+Thumbs.db
