@@ -1,19 +1,32 @@
-# CheckManual: A New Challenge and Benchmark for Manual-based Appliance Manipulation
+<div align="center">
 
-CheckManual is a benchmark for manual-based appliance manipulation. It provides
-appliance manuals, task annotations, and simulator-based evaluation protocols
-for three tracks:
+# CheckManual
 
-- **Track 1:** manual-based part-function alignment and task planning.
-- **Track 2:** manual-based primitive-action manipulation.
-- **Track 3:** manual-based long-horizon manipulation with visual grounding and execution.
+### A New Challenge and Benchmark for Manual-based Appliance Manipulation
 
-This repository contains the evaluation code and ManualPlan baselines. Datasets
+[![CVPR 2025](https://img.shields.io/badge/CVPR-2025-blue)](docs/paper/CVPR2025_CheckManual.pdf)
+[![Dataset](https://img.shields.io/badge/Dataset-Google%20Drive-green)](https://drive.google.com/file/d/1YasM5Se7h4H8wCqZFN3mK8sCu1cEZBo7/view?usp=drive_link)
+[![Python](https://img.shields.io/badge/Python-3.8-lightgrey)](#installation)
+[![SAPIEN](https://img.shields.io/badge/SAPIEN-0.8.0-orange)](#installation)
+
+Manual understanding, visual grounding, and embodied appliance manipulation in one reproducible benchmark.
+
+<img src="docs/images/Teasor.jpg" width="82%" alt="CheckManual overview">
+
+</div>
+
+## Overview
+
+CheckManual evaluates whether an agent can read appliance manuals, identify the
+corresponding functional parts, and execute manipulation tasks in simulation.
+This repository contains the evaluation code and ManualPlan baselines; datasets
 and model checkpoints are downloaded separately.
 
-<p align="center">
-  <img src="docs/images/Teasor.jpg" style="width:80%;">
-</p>
+| Track | Goal | Main entry |
+| --- | --- | --- |
+| Track 1 | Manual-based part-function alignment and task planning | `track1_ManualPlan.py` |
+| Track 2 | Primitive-action manipulation with visual alignment | `track2_ManualPlan_fast.py` |
+| Track 3 | Long-horizon planning, grounding, and execution | `track3_ManualPlan_fast.py` |
 
 ## News
 
@@ -54,11 +67,11 @@ predicted visual grounding or the local SAM/GroundingDINO server:
 pip install -r requirements-perception.txt
 ```
 
-## Data
+## Data Preparation
 
 Download the [CheckManual dataset](https://drive.google.com/file/d/1YasM5Se7h4H8wCqZFN3mK8sCu1cEZBo7/view?usp=drive_link)
 and the corresponding [PartNet-Mobility/SAPIEN assets](https://sapien.ucsd.edu/downloads),
-then arrange them as:
+then arrange them as follows:
 
 ```text
 data/
@@ -79,8 +92,8 @@ data/
 ```
 
 The public release contains 1107 manual samples, 1484 manipulation tasks, 182
-unique CAD shape ids, and 10 appliance categories. The dataset folders,
-checkpoints, generated caches, and `results/` are intentionally ignored by Git.
+unique CAD shape ids, and 10 appliance categories. Dataset folders, checkpoints,
+generated caches, and `results/` are intentionally ignored by Git.
 
 ## API Configuration
 
@@ -102,7 +115,9 @@ export CHECKMANUAL_OCR_SECRET_KEY="..."
 
 You can also fill `api_utils/api_key_config.json`; do not commit real keys.
 
-## Track 1
+## Evaluation
+
+### Track 1: Manual Planning
 
 ```bash
 python track1_ManualPlan.py \
@@ -111,10 +126,10 @@ python track1_ManualPlan.py \
   --out_dir results/track1_full
 ```
 
-## Track 2
+### Track 2: Primitive Manipulation
 
-Track 2 evaluates primitive-action manipulation. It can use FoundationPose and
-an optional grasp server:
+Track 2 evaluates primitive-action manipulation. Start FoundationPose first,
+then run the full evaluation:
 
 ```bash
 python perception/FoundationPose_Server/foundationpose_flask.py
@@ -127,13 +142,12 @@ python track2_ManualPlan_fast.py \
   --out_dir results/track2_full
 ```
 
-FoundationPose setup details are in
+FoundationPose setup details are available in
 `perception/FoundationPose_Server/README.md`.
 
-## Track 3
+### Track 3: Long-horizon Manipulation
 
-Track 3 evaluates long-horizon planning and execution. Run planning-only
-evaluation with:
+Run planning-only evaluation:
 
 ```bash
 python track3_ManualPlan_fast.py \
@@ -142,7 +156,7 @@ python track3_ManualPlan_fast.py \
   --out_dir results/track3_full_plan
 ```
 
-Run planning plus execution with:
+Run planning plus execution:
 
 ```bash
 python track3_ManualPlan_fast.py \
@@ -166,13 +180,13 @@ python perception/cv_server.py --port 5002
 ```
 
 Then add `--try_physical_button_press` and/or `--try_physical_knob_rotate` when
-needed. Track 3 execution isolates samples in subprocesses by default so native
+needed. Track 3 execution isolates samples in subprocesses by default, so native
 SAPIEN mesh failures are written as `sample_error` and the batch continues.
 
 ## Outputs
 
 Each track writes JSON results, logs, and runtime caches under the chosen
-`--out_dir`, for example:
+`--out_dir`:
 
 ```text
 results/track3_full_execute/
