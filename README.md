@@ -1,16 +1,15 @@
 # CheckManual: A New Challenge and Benchmark for Manual-based Appliance Manipulation
 
 CheckManual is a benchmark for manual-based appliance manipulation. It provides
-appliance manuals, task annotations, and simulator-based evaluation protocols for
-three tracks:
+appliance manuals, task annotations, and simulator-based evaluation protocols
+for three tracks:
 
 - **Track 1:** manual-based part-function alignment and task planning.
 - **Track 2:** manual-based primitive-action manipulation.
 - **Track 3:** manual-based long-horizon manipulation with visual grounding and execution.
 
-This repository contains the evaluation code and ManualPlan baselines. The
-released datasets and model checkpoints are downloaded separately so the GitHub
-repository stays lightweight.
+This repository contains the evaluation code and ManualPlan baselines. Datasets
+and model checkpoints are downloaded separately.
 
 <p align="center">
   <img src="docs/images/Teasor.jpg" style="width:80%;">
@@ -23,35 +22,15 @@ repository stays lightweight.
 - 2025.04.04: CheckManual was selected as a CVPR 2025 Highlight.
 - 2025.02.26: CheckManual was accepted by CVPR 2025.
 
-## Repository Layout
+## Installation
 
-```text
-CheckManual/
-├── track1_ManualPlan.py
-├── track2_ManualPlan_fast.py      # recommended Track 2 entry point
-├── track3_ManualPlan_fast.py      # recommended Track 3 entry point
-├── track2_ManualPlan.py           # legacy/reference implementation
-├── track3_ManualPlan.py           # legacy/reference implementation
-├── api_utils/
-├── manualplan_support/
-├── perception/
-├── voxposer/
-├── robots/
-├── assets/
-├── data/                          # local datasets, ignored by git
-└── results/                       # runtime outputs, ignored by git
-```
-
-The `fast` Track 2/3 scripts are the recommended public entry points. They keep
-generated caches under `results/<run_name>/runtime_cache/` and are more suitable
-for running from clean official data.
-
-## Environment
-
-The released scripts were tested with Python 3.8, CUDA-capable GPUs, and SAPIEN
-0.8.0. A typical setup is:
+The code was tested with Python 3.8, CUDA-capable GPUs, Ubuntu 20.04, and
+SAPIEN 0.8.0.
 
 ```bash
+git clone https://github.com/LYX0501/CheckManual.git
+cd CheckManual
+
 conda create -n checkmanual python=3.8
 conda activate checkmanual
 
@@ -67,20 +46,18 @@ pip install \
 pip install -r requirements.txt
 ```
 
-Do not use the latest `pip install sapien` for these scripts. The code expects
-the older SAPIEN 0.8.0 API used by Where2Act/PartNet-Mobility baselines.
-
-Optional perception dependencies for Track 2 crop assistance and Track 3
-predicted visual grounding:
+Do not use the latest `pip install sapien`; these scripts expect the older
+SAPIEN 0.8.0 API. Install optional perception dependencies only when running
+predicted visual grounding or the local SAM/GroundingDINO server:
 
 ```bash
 pip install -r requirements-perception.txt
 ```
 
-## Data Preparation
+## Data
 
-Download the [CheckManual manual dataset](https://drive.google.com/file/d/1YasM5Se7h4H8wCqZFN3mK8sCu1cEZBo7/view?usp=drive_link)
-and the corresponding [PartNet-Mobility/SAPIEN appliance assets](https://sapien.ucsd.edu/downloads),
+Download the [CheckManual dataset](https://drive.google.com/file/d/1YasM5Se7h4H8wCqZFN3mK8sCu1cEZBo7/view?usp=drive_link)
+and the corresponding [PartNet-Mobility/SAPIEN assets](https://sapien.ucsd.edu/downloads),
 then arrange them as:
 
 ```text
@@ -101,26 +78,14 @@ data/
     └── ...
 ```
 
-The public repository should not commit `data/CheckManual_Data/` or
-`data/sapien_dataset/`. They are ignored by `.gitignore`.
-
-The current public CheckManual release contains 1107 manual samples, 1484
-manipulation tasks, 182 unique CAD shape ids, and 10 appliance categories:
-camera, coffee_machine, dishwasher, display, microwave, oven, printer,
-refrigerator, toaster, and washing_machine.
-
-No pre-generated caches are required in `data/CheckManual_Data`. The scripts
-generate PDF page images, local OCR fallbacks, visual alignment caches,
-segmentation masks, and planning caches under:
-
-```text
-results/<run_name>/runtime_cache/<manual_xxx>/
-```
+The public release contains 1107 manual samples, 1484 manipulation tasks, 182
+unique CAD shape ids, and 10 appliance categories. The dataset folders,
+checkpoints, generated caches, and `results/` are intentionally ignored by Git.
 
 ## API Configuration
 
-ManualPlan uses GPT/GPT-V for planning and multimodal alignment. Configure GPT
-with environment variables:
+Oracle smoke tests do not need API keys. Predicted ManualPlan runs use GPT/GPT-V
+for planning and multimodal alignment:
 
 ```bash
 export CHECKMANUAL_GPT_KEY="Bearer sk-..."
@@ -128,37 +93,22 @@ export CHECKMANUAL_GPT_URL="https://your-api-host/v1"
 export CHECKMANUAL_GPT_MODEL="gpt-4o"
 ```
 
-Alternatively, fill `api_utils/api_key_config.json`. Do not commit real API keys.
-
-OCR is optional. If Baidu OCR is configured, set:
+OCR is optional. If Baidu OCR is not configured, scripts fall back to local
+`pdftotext`.
 
 ```bash
 export CHECKMANUAL_OCR_API_KEY="..."
 export CHECKMANUAL_OCR_SECRET_KEY="..."
 ```
 
-If OCR is not configured, the scripts automatically fall back to local text
-extraction with `pdftotext` and cache the result under `results/.../runtime_cache`.
+You can also fill `api_utils/api_key_config.json`; do not commit real keys.
 
-## Quick Reproduction
+## Quick Check
 
-These commands exercise the public code path without requiring GPT, OCR,
-FoundationPose, or a running GroundingDINO/SAM server. They use oracle alignment
-and oracle plans so you can verify the simulator, data layout, and result writer
-first.
+Run this first to verify the environment, data layout, simulator, and result
+writer without GPT, OCR, FoundationPose, or the SAM/GroundingDINO server:
 
 ```bash
-conda activate checkmanual
-
-xvfb-run -a python track3_ManualPlan_fast.py \
-  --manual_dir data/CheckManual_Data \
-  --data_dir data/sapien_dataset \
-  --sample manual_473 \
-  --max_tasks 1 \
-  --use_gt_alignment \
-  --use_gt_plan \
-  --out_dir results/smoke_track3_plan
-
 xvfb-run -a python track3_ManualPlan_fast.py \
   --manual_dir data/CheckManual_Data \
   --data_dir data/sapien_dataset \
@@ -170,81 +120,14 @@ xvfb-run -a python track3_ManualPlan_fast.py \
   --out_dir results/smoke_track3_exec
 ```
 
-Expected output for `manual_473` is:
+Expected output:
 
 ```text
 Track 3 planning SR: 1.0000
 Track 3 execution SR: 1.0000
 ```
 
-After the oracle smoke tests pass, enable predicted GPT/GPT-V planning and the
-perception services described below.
-
-## Perception Services
-
-### GroundingDINO + SAM
-
-Predicted Track 3 visual grounding, Track 2 crop assistance, physical
-button/knob interaction, and non-fallback Track 3 execution use the local
-perception server:
-
-```bash
-export CHECKMANUAL_GROUNDING_DINO_CONFIG=/path/to/GroundingDINO_SwinT_OGC.py
-export CHECKMANUAL_GROUNDING_DINO_CHECKPOINT=/path/to/groundingdino_swint_ogc.pth
-export CHECKMANUAL_SAM_CHECKPOINT=/path/to/sam_vit_h_4b8939.pth
-export CHECKMANUAL_CV_SERVER_PORT=5002
-
-python perception/cv_server.py --port 5002
-```
-
-The defaults are defined in `perception/constants.py`, but environment variables
-are recommended for portable setups.
-
-If the server is not running, calls fail fast with a message such as
-`CV server request failed: http://localhost:5002/sam`. Start the server or set
-`CHECKMANUAL_CV_SERVER_PORT` to the port you are using.
-
-### FoundationPose
-
-Full Track 2 pose estimation requires FoundationPose. Install FoundationPose
-following `perception/FoundationPose_Server/README.md`, then start:
-
-```bash
-python perception/FoundationPose_Server/foundationpose_flask.py
-```
-
-The Track 2 script sends requests to:
-
-```text
-http://127.0.0.1:6006/foundationpose_flask
-```
-
-Override it with `--foundationpose_url` if needed.
-
-### AnyGrasp / Grasp Server
-
-Track 2 slider, drawer, lid, and door execution can require grasp proposals. If
-no cached grasp poses exist, provide a compatible grasp server with:
-
-```bash
---grasp_server_url http://host:port/your_grasp_endpoint
-```
-
-Without a grasp server, those actions may be skipped or fail. Button and knob
-actions do not need the grasp server.
-
-## Track 1 Evaluation
-
-Run a smoke test:
-
-```bash
-python track1_ManualPlan.py \
-  --sample manual_473 \
-  --max_tasks 1 \
-  --out_dir results/smoke_track1
-```
-
-Run the full Track 1 evaluation:
+## Track 1
 
 ```bash
 python track1_ManualPlan.py \
@@ -253,19 +136,15 @@ python track1_ManualPlan.py \
   --out_dir results/track1_full
 ```
 
-Outputs:
+Useful smoke-test flags:
 
-```text
-results/track1_full/track1_result.json
-results/track1_full/runtime_cache/
+```bash
+--sample manual_473 --max_tasks 1
 ```
 
-## Track 2 Evaluation
+## Track 2
 
-`track2_ManualPlan_fast.py` is the recommended Track 2 entry point.
-
-Smoke-test the simulator and result writing with oracle alignment and oracle
-plans:
+`track2_ManualPlan_fast.py` is the recommended entry point. Oracle smoke test:
 
 ```bash
 python track2_ManualPlan_fast.py \
@@ -278,9 +157,11 @@ python track2_ManualPlan_fast.py \
   --out_dir results/smoke_track2_gt
 ```
 
-Run Track 2 with predicted alignment and plans:
+Full predicted Track 2 can use FoundationPose and an optional grasp server:
 
 ```bash
+python perception/FoundationPose_Server/foundationpose_flask.py
+
 python track2_ManualPlan_fast.py \
   --manual_dir data/CheckManual_Data \
   --data_dir data/sapien_dataset \
@@ -289,64 +170,12 @@ python track2_ManualPlan_fast.py \
   --out_dir results/track2_full
 ```
 
-Useful options:
+FoundationPose setup details are in
+`perception/FoundationPose_Server/README.md`.
 
-- `--sample manual_473`: run one released sample.
-- `--max_samples N`: run the first `N` samples.
-- `--max_tasks N`: run the first `N` tasks per sample.
-- `--no_cache_pose`, `--no_cache_plan`, `--no_cache_grasp`: force regeneration.
-- `--use_gt_alignment`, `--use_gt_plan`: oracle smoke/debug modes.
-- `--save_vis`: save per-step visualization images.
+## Track 3
 
-Outputs:
-
-```text
-results/track2_full/track2_results.json
-results/track2_full/track2.log
-results/track2_full/runtime_cache/
-```
-
-## Track 3 Evaluation
-
-`track3_ManualPlan_fast.py` is the recommended Track 3 entry point.
-
-Planning-only smoke test:
-
-```bash
-python track3_ManualPlan_fast.py \
-  --manual_dir data/CheckManual_Data \
-  --data_dir data/sapien_dataset \
-  --sample manual_473 \
-  --max_tasks 1 \
-  --use_gt_alignment \
-  --out_dir results/smoke_track3_plan
-```
-
-Track 3 execution requires GroundingDINO/SAM server first:
-
-```bash
-export CHECKMANUAL_CV_SERVER_PORT=5002
-python perception/cv_server.py --port 5002
-```
-
-Then run:
-
-```bash
-python track3_ManualPlan_fast.py \
-  --manual_dir data/CheckManual_Data \
-  --data_dir data/sapien_dataset \
-  --sample manual_473 \
-  --max_tasks 1 \
-  --execute \
-  --out_dir results/smoke_track3_exec
-```
-
-The default Track 3 button/knob execution path uses joint-level fallbacks for
-stability. It can run oracle button/knob smoke tests without SAM masks. Predicted
-visual grounding, physical button/knob interaction, and door/slider-like actions
-still require GroundingDINO/SAM masks.
-
-Run full Track 3 planning:
+`track3_ManualPlan_fast.py` is the recommended entry point. Planning:
 
 ```bash
 python track3_ManualPlan_fast.py \
@@ -355,7 +184,7 @@ python track3_ManualPlan_fast.py \
   --out_dir results/track3_full_plan
 ```
 
-Run full Track 3 execution:
+Execution:
 
 ```bash
 python track3_ManualPlan_fast.py \
@@ -365,87 +194,47 @@ python track3_ManualPlan_fast.py \
   --out_dir results/track3_full_execute
 ```
 
-For stability, the fast Track 3 script uses joint-level fallbacks for button and
-knob execution by default. Physical button/knob interaction can be enabled with:
+By default, button and knob execution uses stable joint-level fallbacks.
+Physical button/knob interaction and non-fallback visual grounding require the
+SAM/GroundingDINO server:
 
 ```bash
---try_physical_button_press
---try_physical_knob_rotate
+export CHECKMANUAL_GROUNDING_DINO_CONFIG=/path/to/GroundingDINO_SwinT_OGC.py
+export CHECKMANUAL_GROUNDING_DINO_CHECKPOINT=/path/to/groundingdino_swint_ogc.pth
+export CHECKMANUAL_SAM_CHECKPOINT=/path/to/sam_vit_h_4b8939.pth
+export CHECKMANUAL_CV_SERVER_PORT=5002
+
+python perception/cv_server.py --port 5002
 ```
 
-Useful options:
+Then add `--try_physical_button_press` and/or `--try_physical_knob_rotate` when
+needed. Track 3 execution isolates samples in subprocesses by default so native
+SAPIEN mesh failures are written as `sample_error` and the batch continues.
 
-- `--sample manual_473`: run one released sample.
-- `--task_name "Task Name"`: run a single task by name.
-- `--max_samples N`, `--max_tasks N`: limit evaluation size.
-- `--use_gt_alignment`, `--use_gt_plan`: oracle debug modes.
-- `--no_cache_alignment`, `--no_cache_plan`: force regeneration.
-- `--save_vis`: save execution visualizations.
-- `--no_sample_subprocess`: disable per-sample subprocess isolation. By default,
-  `--execute` isolates each sample so native SAPIEN mesh-cooking failures are
-  recorded as `sample_error` and do not stop the full batch.
+## Outputs
 
-Outputs:
+Each track writes JSON results, logs, and runtime caches under the chosen
+`--out_dir`, for example:
 
 ```text
-results/track3_full_execute/track3_results.json
-results/track3_full_execute/track3.log
-results/track3_full_execute/runtime_cache/
-results/track3_full_execute/track3/
+results/track3_full_execute/
+├── track3_results.json
+├── track3.log
+├── runtime_cache/
+└── track3/
 ```
 
-## Result Files
-
-Each track writes a JSON result file under the chosen output directory.
-
-Common fields:
-
-- `total_tasks`: tasks evaluated for a sample.
-- `success_task_plan`: tasks whose generated plan exactly matches ground truth.
-- `success_task_execution`: tasks whose execution succeeds after matching the ground-truth plan.
-- `completion_rates`: fraction of ground-truth steps completed during execution.
-- `pred_link_function_dict`: predicted part/function alignment.
-- `sample_error`: sample-level exception message, if a sample failed but the batch continued.
-
-Runtime caches are stored separately under `runtime_cache/` so the released data
-directory stays clean.
+Generated files stay under `results/` so the released data directory remains
+clean.
 
 ## Troubleshooting
 
-- `ModuleNotFoundError` in `base`: activate `conda activate checkmanual` or use
-  `conda run -n checkmanual ...`.
-- `CV server request failed`: start `python perception/cv_server.py --port 5002`
-  after configuring GroundingDINO/SAM checkpoint paths.
-- Native SAPIEN segmentation faults: keep the default Track 3 sample subprocess
-  isolation enabled. Failed samples are written with `sample_error` and the
-  remaining batch continues.
-- Empty OCR/API credentials: this is expected for oracle smoke tests. Full
-  predicted ManualPlan runs need GPT/GPT-V credentials; OCR falls back to local
-  `pdftotext` when Baidu OCR is not configured.
-
-## Before Release Checklist
-
-Before pushing a public repository, verify:
-
-```bash
-git status --short
-```
-
-Do not commit:
-
-- `data/CheckManual_Data/`
-- `data/sapien_dataset/`
-- `results/`
-- `__pycache__/` or `*.pyc`
-- model checkpoints such as `*.pth`, `*.pt`, `*.ckpt`
-- real API keys in `api_utils/api_key_config.json` or any log file
-
-Recommended quick checks:
-
-```bash
-python -m py_compile track1_ManualPlan.py track2_ManualPlan_fast.py track3_ManualPlan_fast.py
-rg -n "sk-[A-Za-z0-9_-]{20,}|OPENAI_API_KEY|CHECKMANUAL_GPT_KEY" .
-```
+- Activate `conda activate checkmanual` if imports fail in `base`.
+- Start `python perception/cv_server.py --port 5002` if visual grounding reports
+  `CV server request failed`.
+- Keep Track 3 subprocess isolation enabled for large batch execution.
+- Check `results/<run_name>/*.log` for sample-level errors and external service
+  connection failures.
 
 ## Citation
 
