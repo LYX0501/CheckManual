@@ -84,8 +84,7 @@ checkpoints, generated caches, and `results/` are intentionally ignored by Git.
 
 ## API Configuration
 
-Oracle smoke tests do not need API keys. Predicted ManualPlan runs use GPT/GPT-V
-for planning and multimodal alignment:
+ManualPlan uses GPT/GPT-V for planning and multimodal alignment:
 
 ```bash
 export CHECKMANUAL_GPT_KEY="Bearer sk-..."
@@ -103,30 +102,6 @@ export CHECKMANUAL_OCR_SECRET_KEY="..."
 
 You can also fill `api_utils/api_key_config.json`; do not commit real keys.
 
-## Quick Check
-
-Run this first to verify the environment, data layout, simulator, and result
-writer without GPT, OCR, FoundationPose, or the SAM/GroundingDINO server:
-
-```bash
-xvfb-run -a python track3_ManualPlan_fast.py \
-  --manual_dir data/CheckManual_Data \
-  --data_dir data/sapien_dataset \
-  --sample manual_473 \
-  --max_tasks 1 \
-  --use_gt_alignment \
-  --use_gt_plan \
-  --execute \
-  --out_dir results/smoke_track3_exec
-```
-
-Expected output:
-
-```text
-Track 3 planning SR: 1.0000
-Track 3 execution SR: 1.0000
-```
-
 ## Track 1
 
 ```bash
@@ -136,28 +111,10 @@ python track1_ManualPlan.py \
   --out_dir results/track1_full
 ```
 
-Useful smoke-test flags:
-
-```bash
---sample manual_473 --max_tasks 1
-```
-
 ## Track 2
 
-`track2_ManualPlan_fast.py` is the recommended entry point. Oracle smoke test:
-
-```bash
-python track2_ManualPlan_fast.py \
-  --manual_dir data/CheckManual_Data \
-  --data_dir data/sapien_dataset \
-  --sample manual_473 \
-  --max_tasks 1 \
-  --use_gt_alignment \
-  --use_gt_plan \
-  --out_dir results/smoke_track2_gt
-```
-
-Full predicted Track 2 can use FoundationPose and an optional grasp server:
+Track 2 evaluates primitive-action manipulation. It can use FoundationPose and
+an optional grasp server:
 
 ```bash
 python perception/FoundationPose_Server/foundationpose_flask.py
@@ -175,7 +132,8 @@ FoundationPose setup details are in
 
 ## Track 3
 
-`track3_ManualPlan_fast.py` is the recommended entry point. Planning:
+Track 3 evaluates long-horizon planning and execution. Run planning-only
+evaluation with:
 
 ```bash
 python track3_ManualPlan_fast.py \
@@ -184,7 +142,7 @@ python track3_ManualPlan_fast.py \
   --out_dir results/track3_full_plan
 ```
 
-Execution:
+Run planning plus execution with:
 
 ```bash
 python track3_ManualPlan_fast.py \
@@ -194,9 +152,9 @@ python track3_ManualPlan_fast.py \
   --out_dir results/track3_full_execute
 ```
 
-By default, button and knob execution uses stable joint-level fallbacks.
-Physical button/knob interaction and non-fallback visual grounding require the
-SAM/GroundingDINO server:
+The default execution path uses stable joint-level fallbacks for button and knob
+actions. Physical button/knob interaction and non-fallback visual grounding
+require the SAM/GroundingDINO server:
 
 ```bash
 export CHECKMANUAL_GROUNDING_DINO_CONFIG=/path/to/GroundingDINO_SwinT_OGC.py
